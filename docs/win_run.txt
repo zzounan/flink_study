@@ -1,0 +1,29 @@
+## window 运行说明
+
+docker 安装
+1. docker pull apache/kafka:3.7.1
+2. docker run -d --name kafka -p 9092:9092 apache/kafka:3.7.1
+
+
+进入容器
+docker exec -it kafka /bin/bash
+
+创建topic
+/opt/kafka/bin/kafka-topics.sh \
+--bootstrap-server localhost:9092 \
+--create \
+--topic test-topic \
+--partitions 1 \
+--replication-factor 1
+
+生产数据
+/opt/kafka/bin/kafka-console-producer.sh \
+--bootstrap-server localhost:9092 \
+--topic test-topic
+
+进入另外一个终端
+docker exec -it kafka /bin/bash
+/opt/kafka/bin/kafka-console-consumer.sh \
+--bootstrap-server localhost:9092 \
+--topic test-topic \
+--from-beginning
